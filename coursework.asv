@@ -27,20 +27,9 @@ x_rng = linspace(-1,1,res);
 p = @(x) normpdf(x,0,0.4);  %Here is a continuous PDF for testing purposes
 
 
-calcProbs(p,-0.35,-0.3,0,0.4)
+calcProbs(p,-0.35,-0.3)
 
-function[prob, mean_val, one_std,two_std] = calcProbs(pd_func,range_min,range_max, mu1,sigma1)
-    nDist = @(x) normpdf(x,mu1,sigma1);
-    res = 100;
-    xvals = linspace(-5*sigma1,5*sigma1,res)
-    dvals = nDist(xvals)
-    plot(xvals,dvals)
-    xlabel("x")
-    ylabel("Probability Density")
-    
-    mean_val = nDist(mu1);
-    one_std = nDist(mu1 + sigma1);
-    two_std = nDist(mu1 + 2*sigma1);
+function[prob] = calcProbs(pd_func,range_min,range_max, mu1,sigma1)
     %{
 Brief:      Ascertains probability of data lying in range of a PDF
 Details:    //!TODO long details
