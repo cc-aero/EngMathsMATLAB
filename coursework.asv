@@ -28,29 +28,34 @@ p = @(x) normpdf(x,0,0.4);  %Here is a continuous PDF for testing purposes
 
 calcProbs(p,-0.35,-0.3,0.1,0.4,0,0.5);
 
-function[prob, mean_val, one_std,two_std,area] = calcProbs(pd_func,range_min,range_max, mu1,sigma1, mu2,sigma2)
+function[prob, mean_val, one_std,two_std,area] = calcProbs(pdf,a,b, mu1,sigma1, mu2,sigma2)
     %{
 Brief:      Ascertains probability of data lying in range of a PDF - AND
 MORE
 
 Syntax:     
-    calcProbs(pd_func,range_min,range_max, mu1,sigma1, mu2,sigma2)
+    calcProbs(pdf,a,b, mu1,sigma1, mu2,sigma2)
 
 Imports:    
-    - pd_func   |  function |   Given Probability Density Function
-    - range_min |   float   |   Specified interval minimum
-    - range_max |   float   |   Specified interval maximum
+    - pdf   |  function |   Given Probability Density Function
+    - a |   float   |   Specified interval minimum
+    - b |   float   |   Specified interval maximum
     - mu1       |   float   |   Mean Value for PDF1 
     - sigma1    |   float   |   Standard Deviation for PDF1
-    - mu2       |   float   |   Mean
+    - mu2       |   float   |   Mean Value for PDF2
+    - sigma2    |   float   |   Standard Deviation for PDF2
     
  Exports:
     - prob      |   float   |   Probability of value being within interval
+    - mean_val  |   float   |   Mean Value of PDF1
+    - one_std   |   float   |   mean_val + one Standard Deviation
+    - two_std   |   float   |   mean_val + two Standard Deviations
+    - area      |   float   |   Overlap Area
         
     %}
     res = 1000;%1000 by default. x axis resolution. only relevant to plots.
     %PART 1
-    prob=integral(pd_func,range_min,range_max);
+    prob=integral(pdf,a,b);
     
     %PART 2
     nDist = @(x) normpdf(x,mu1,sigma1);
@@ -79,7 +84,11 @@ Imports:
     grid
 
     area = integral((@(x) min(nDist(x), nDist2(x))),-inf,inf);
-        
+    
+
+    %to selfcheck: verify that integral((@(x) nDist(x)),-inf,inf) for
+    %nDist1 and nDist2 are both ==1.
+       
     
 end
 
