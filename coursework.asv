@@ -27,9 +27,9 @@ x_rng = linspace(-1,1,res);
 p = @(x) normpdf(x,0,0.4);  %Here is a continuous PDF for testing purposes
 
 
-calcProbs(p,-0.35,-0.3)
+calcProbs(p,-0.35,-0.3,0,0.4,0.1,0.1)
 
-function[prob] = calcProbs(pd_func,range_min,range_max, mu1,sigma1)
+function[prob, mean_val, one_std,two_std,area] = calcProbs(pd_func,range_min,range_max, mu1,sigma1, mu2,sigma2)
     %{
 Brief:      Ascertains probability of data lying in range of a PDF
 Details:    //!TODO long details
@@ -51,8 +51,36 @@ Imports:
     - prob      |   float   |   Probability of value being within interval
         
     %}
+
+%PART 1
 prob=integral(pd_func,range_min,range_max);
+
+%PART 2
+    nDist = @(x) normpdf(x,mu1,sigma1);
+    res = 1000;     %1000 by default. x axis resolution
+    xvals = linspace(-5*sigma1,5*sigma1,res)    %Values for x axis
+    dvals = nDist(xvals)    %Normal distribution values
+    plot(xvals,dvals)
+
+    xlabel("x")
+    ylabel("Probability Density")
+
+    mean_val = nDist(mu1);
+    one_std = nDist(mu1 + sigma1);
+    two_std = nDist(mu1 + 2*sigma1);
+
+%PART 3
+    nDist2 = @(x) normpdf(x,mu2,sigma2);
+    xvals2 = linspace(-5*sigma2,5*sigma2,res)    %Values for x axis
+    dvals2 = nDist(xvals2)    %Normal distribution values
+    xlabel("x")
+    ylabel("Probability Density")
     
+    mean_val = nDist(mu1);
+    one_std = nDist(mu1 + sigma1);
+    two_std = nDist(mu1 + 2*sigma1);
+    
+    area = 
 end
 
 
